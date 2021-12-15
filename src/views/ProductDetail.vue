@@ -1,14 +1,14 @@
 <template>
     <div id="page-wrap" v-if="product.id">
         <div id="image-wrap">
-            <img :src="product?.images[0]" :alt="product?.title">
+            <img :src="product?.imageUrl" :alt="product?.name">
         </div>
         <div id="product-details">
-            <h1>{{ product?.title }}</h1>
+            <h1>{{ product?.name }}</h1>
             <h3 id="price">${{ product?.price }}</h3>
-            <p>Average Rating: {{ product.rating }}/5</p>
+            <p>Average Rating: {{ product.averageRating }}/5</p>
 
-            <button id="add-to-cart">Add To Cart</button>
+            <button id="add-to-cart" @click="addToCart">Add To Cart</button>
 
             <h4>Description</h4>
             <p>{{ product.description }}</p>
@@ -19,6 +19,7 @@
 
 <script>
 import NotFound from '../views/NotFound.vue'
+import axios from 'axios';
 
 export default {
     name: 'ProductDetail',
@@ -35,9 +36,15 @@ export default {
     },
     methods: {
         async getProduct(id) {
-            await fetch(`https://dummyjson.com/products/${id}`)
-            .then(res => res.json())
-            .then( product => this.product = product );
+            await axios.get(`/api/products/${id}`)
+            .then( res => this.product = res.data );
+        },
+        async addToCart () {
+          await axios.post(`/api/users/12345/cart`, {
+            productId: this.$route.params.id
+          })
+          .then( res => console.log('Added into the cart', res.data.length));
+
         }
     }
 }

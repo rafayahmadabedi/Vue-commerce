@@ -14,6 +14,7 @@
     </div>
 </template>
 <script>
+import axios from "axios";
 import ProductsList from '../components/ProductsList.vue';
 export default {
   components: { ProductsList },
@@ -28,9 +29,8 @@ export default {
     },
     methods: {
         async getCartItems() {
-            await fetch('https://dummyjson.com/carts')
-            .then(res => res.json())
-            .then(cart => this.cartItems = cart.carts[0].products);
+            await axios.get(`/api/users/12345/cart`)
+            .then(res => this.cartItems = res.data);
         }
     },
     computed: {

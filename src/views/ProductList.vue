@@ -4,6 +4,7 @@
     </div>
 </template>
 <script>
+import axios from "axios";
 import ProductsGrid from '../components/ProductsGrid.vue';
 export default {
     components: { ProductsGrid },
@@ -18,9 +19,8 @@ export default {
     },
     methods: {
         async getProducts() {
-            await fetch('https://dummyjson.com/products')
-            .then( res => res.json())
-            .then( products => this.products = products.products );
+            await axios.get('/api/products')
+            .then( res => this.products = res.data );
         }
     }
     

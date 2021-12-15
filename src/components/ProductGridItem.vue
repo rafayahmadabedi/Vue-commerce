@@ -1,7 +1,7 @@
 <template>
     <div class="product-item">
-        <img :src="product.thumbnail" :alt="product.title">
-        <h3 class="product-name">{{ product.title }}</h3>
+        <img :src="product.imageUrl" :alt="product.name">
+        <h3 class="product-name">{{ product.name }}</h3>
         <p class="product-price">${{ product.price }}</p>
         <router-link :to="`/product/${product.id}`">
             <button>View Details</button>
